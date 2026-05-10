@@ -18,22 +18,26 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.jks
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.jks
 
       - name: Build release APK
         run: ./gradlew assembleRelease
 
-      - name: Sign APK
+      - name: Sign APKs
         run: |
-          $ANDROID_SDK_ROOT/build-tools/$(ls $ANDROID_SDK_ROOT/build-tools | tail -1)/apksigner sign \
-            --ks release.jks --ks-key-alias key \
-            --ks-pass pass:android --key-pass pass:android \
-            --out app-signed.apk \
-            app/build/outputs/apk/release/app-release-unsigned.apk
+          APKSIGNER=$ANDROID_SDK_ROOT/build-tools/$(ls $ANDROID_SDK_ROOT/build-tools | tail -1)/apksigner
+          for apk in app/build/outputs/apk/release/*-unsigned.apk; do
+            out="${apk/-unsigned/}"
+            $APKSIGNER sign --ks release.jks --ks-key-alias key \
+              --ks-pass pass:android --key-pass pass:android \
+              --out "$out" "$apk"
+          done
 
-      - name: Upload APK
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
           name: geode-bundled-161
-          path: app-signed.apk
+          path: |
+            app/build/outputs/apk/release/app-arm64-v8a-release.apk
+            app/build/outputs/apk/release/app-armeabi-v7a-release.apk
+            app/build/outputs/apk/release/app-universal-release.apk
