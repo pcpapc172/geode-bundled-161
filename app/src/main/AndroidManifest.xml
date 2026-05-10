@@ -58,7 +58,7 @@
             android:theme="@style/Theme.GeodeLauncher" />
         <activity
             android:name=".preferences.SettingsActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.GeodeLauncher">
             <meta-data
