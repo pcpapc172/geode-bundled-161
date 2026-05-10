@@ -27,7 +27,7 @@ jobs:
       - name: Sign APK
         run: |
           $ANDROID_SDK_ROOT/build-tools/$(ls $ANDROID_SDK_ROOT/build-tools | tail -1)/apksigner sign \
-            --ks release.jks --ks-alias key \
+            --ks release.jks --ks-key-alias key \
             --ks-pass pass:android --key-pass pass:android \
             --out app-signed.apk \
             app/build/outputs/apk/release/app-release-unsigned.apk
