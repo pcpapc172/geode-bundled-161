@@ -17,11 +17,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug
+      - name: Setup keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.jks
+
+      - name: Build release APK
+        run: ./gradlew assembleRelease
+
+      - name: Sign APK
+        run: |
+          $ANDROID_SDK_ROOT/build-tools/$(ls $ANDROID_SDK_ROOT/build-tools | tail -1)/apksigner sign \
+            --ks release.jks --ks-alias key \
+            --ks-pass pass:android --key-pass pass:android \
+            --out app-signed.apk \
+            app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: geode-bundled-161
-          path: app/build/outputs/apk/debug/
+          path: app-signed.apk
