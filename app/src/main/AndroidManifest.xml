@@ -90,7 +90,7 @@
 
         <provider
             android:name=".UserDirectoryProvider"
-            android:authorities="com.geode.bundled1.user"
+            android:authorities="com.geode.bundlei1.user"
             android:exported="true"
             android:grantUriPermissions="true"
             android:permission="android.permission.MANAGE_DOCUMENTS">
@@ -100,7 +100,7 @@
         </provider>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.geode.bundled1.fileprovider"
+            android:authorities="com.geode.bundlei1.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

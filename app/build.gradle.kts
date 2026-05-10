@@ -17,7 +17,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.geode.bundled1"
+        applicationId = "com.geode.bundlei1"
         minSdk = 23
         targetSdk = 35
         versionCode = 22
