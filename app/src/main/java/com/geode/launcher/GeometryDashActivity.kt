@@ -30,6 +30,7 @@ import com.geode.launcher.utils.ConstrainedFrameLayout
 import com.geode.launcher.utils.DownloadUtils
 import com.geode.launcher.utils.GamePackageUtils
 import com.geode.launcher.utils.GeodeUtils
+import com.geode.launcher.utils.BootstrapUtils
 import com.geode.launcher.utils.LaunchUtils
 import com.geode.launcher.utils.PreferenceUtils
 import org.cocos2dx.lib.Cocos2dxEditText
@@ -82,6 +83,7 @@ class GeometryDashActivity : AppCompatActivity(), Cocos2dxHelper.Cocos2dxHelperL
         FMOD.init(this)
 
         super.onCreate(savedInstanceState)
+        BootstrapUtils.extractIfNeeded(applicationContext)
 
         // return back to main if Geometry Dash isn't found
         if (!GamePackageUtils.isGameInstalled(packageManager)) {
